@@ -1,0 +1,227 @@
+/* ====== NEGRO + AMARILLO ====== */
+:root{
+  --bg: #000000;            /* fondo global */
+  --paper: #0c0c0c;         /* “papel” negro suave */
+  --ink: #ffffff;           /* texto principal blanco */
+  --ink-dim: #c8c8c8;       /* texto secundario gris claro */
+  --accent: #ffd900;        /* amarillo intenso */
+  --border: #1a1a1a;        /* borde sutil */
+  --shadow: 0 14px 40px rgba(0,0,0,.65);
+  --radius: 16px;
+
+  --w: 900px;
+  --px: 28px;
+  --py: 34px;
+
+  --fs-sm: 0.98rem;
+  --fs: 1.06rem;
+  --fs-lg: 1.18rem;
+  --fs-h2: clamp(1.25rem, 2.5vw, 1.45rem);
+  --lh: 1.6;
+}
+
+/* ====== MODO CLARO — Manteniendo estética amarillo/negro ====== */
+@media (prefers-color-scheme: light){
+  :root{
+    --bg: #fffef5;          /* fondo claro cálido */
+    --paper: #ffffff;       /* hoja blanca */
+    --ink: #0d0d0d;         /* texto negro */
+    --ink-dim: #444444;     /* texto secundario */
+    --accent: #c4a700;      /* amarillo más profundo para modo claro */
+    --border: #e6e6e6;
+    --shadow: 0 10px 28px rgba(0,0,0,.08);
+  }
+}
+
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(1200px 1200px at 10% 0%, rgba(94,156,255,.10), transparent 40%),
+              var(--bg);
+  color: var(--ink);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+  font-size: 16px;
+  line-height: var(--lh);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+p { margin: 0 0 .9rem; color: var(--ink-dim); }
+h1,h2,h3 { margin: 0 0 .5rem; line-height: 1.25; color: var(--ink); }
+
+/* =========================
+   Lienzo de carta
+   ========================= */
+main {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+}
+
+.letter{
+  width: min(100%, var(--w));
+  background: linear-gradient(180deg, color-mix(in oklab, var(--paper), white 4%), var(--paper));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(18px, 3vw, var(--py)) clamp(18px, 3.6vw, var(--px));
+  display: grid;
+  gap: 1.2rem;
+}
+
+/* =========================
+   Header
+   ========================= */
+.letter__header{
+  display: grid;
+  grid-template-columns: 1.3fr .9fr;
+  gap: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed color-mix(in oklab, var(--border), white 12%);
+}
+.letter__name{
+  font-size: clamp(1.8rem, 4.2vw, 2.4rem);
+  letter-spacing: .2px;
+}
+.letter__role{
+  margin-top: .25rem;
+  color: var(--ink-dim);
+  font-size: var(--fs-lg);
+}
+.letter__contact{
+  display: grid;
+  gap: .25rem;
+  font-style: normal;
+  justify-self: end;
+  text-align: right;
+}
+.letter__contact a, .letter__contact span{ font-size: var(--fs-sm); }
+
+/* =========================
+   Cuerpo
+   ========================= */
+.letter__body{
+  margin-top: .3rem;
+  font-size: var(--fs);
+}
+
+/* =========================
+   Highlights
+   ========================= */
+.letter__highlights{
+  margin-top: .2rem;
+}
+.letter__highlights h2{
+  font-size: var(--fs-h2);
+  letter-spacing: .2px;
+}
+.letter__highlights ul{
+  margin: .25rem 0 0;
+  padding: 0 0 0 1.1rem;
+}
+.letter__highlights li{
+  margin: .4rem 0;
+  color: var(--ink-dim);
+}
+
+/* =========================
+   Proyectos (estilo "bloques de carta")
+   ========================= */
+.letter__projects{
+  margin-top: .2rem;
+}
+.letter__projects h2{
+  font-size: var(--fs-h2);
+}
+.proj{
+  border: 1px solid color-mix(in oklab, var(--border), white 8%);
+  border-radius: 12px;
+  padding: .85rem .95rem;
+  margin-top: .6rem;
+  background: color-mix(in oklab, var(--paper), black 3%);
+}
+.proj__title{
+  font-size: 1.05rem;
+  margin-bottom: .15rem;
+}
+.proj__desc, .proj__meta{
+  margin: 0;
+}
+.proj__meta{
+  font-size: var(--fs-sm);
+  color: color-mix(in oklab, var(--ink-dim), white 6%);
+}
+.proj__links{
+  margin-top: .35rem;
+  display: flex;
+  gap: .75rem;
+  font-size: var(--fs-sm);
+}
+
+/* =========================
+   CTA & Firma
+   ========================= */
+.letter__cta{
+  margin-top: .4rem;
+  border-top: 1px dashed color-mix(in oklab, var(--border), white 12%);
+  padding-top: .9rem;
+  font-size: var(--fs);
+}
+.letter__footer{
+  margin-top: .2rem;
+}
+.letter__signature{
+  margin: .2rem 0 0;
+  color: var(--ink);
+}
+.letter__sign-name{
+  margin: .1rem 0 .2rem;
+  font-weight: 700;
+}
+.letter__date{
+  font-size: var(--fs-sm);
+  color: var(--ink-dim);
+}
+
+/* =========================
+   Responsividad
+   ========================= */
+@media (max-width: 800px){
+  .letter__header{
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+  .letter__contact{ justify-self: start; text-align: left; }
+}
+
+/* =========================
+   Impresión (A4)
+   ========================= */
+@media print{
+  :root{
+    --bg: #fff; --paper: #fff; --ink: #000; --ink-dim: #333; --accent: #000; --border: #bbb;
+  }
+  html, body { background: #fff; }
+  main{ padding: 0; }
+  .letter{
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm 22mm;
+  }
+  a::after{
+    content: " (" attr(href) ")";
+    font-size: 0.9em;
+    color: #444;
+  }
+}
