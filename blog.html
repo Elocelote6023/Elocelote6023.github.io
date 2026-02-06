@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blog — Jose Alejandro Barranco Avilés</title>
+  <link rel="stylesheet" href="carta.css" />
+</head>
+
+<body>
+  <nav class="topnav" aria-label="Navegación principal">
+    <div class="topnav__inner">
+      <a href="index.html" class="brand" aria-label="Inicio"></a>
+      <div class="topnav__links">
+        <a href="index.html" class="link">Inicio</a>
+        <a href="blog.html" class="link active">Blog</a>
+      </div>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article class="letter" role="document" aria-label="Blog de Jose Alejandro Barranco Avilés">
+      <header class="blog__header">
+        <h1 class="letter__name">Blog</h1>
+        <p class="blog__intro">Cuaderno de aprendizaje del ciclo DAM.</p>
+      </header>
+
+      <div class="blog__controls">
+        <label for="orderSelect">Ordenar por:</label>
+        <select id="orderSelect" class="blog__select">
+          <option value="desc">Más reciente</option>
+          <option value="asc">Más antiguo</option>
+        </select>
+      </div>
+
+      <section class="blog__list">
+
+        <!-- POST: Presentación (fecha: 2026-02-06) -->
+        <article class="post" id="post-2026-02-06" data-date="2026-02-06">
+          <details>
+            <summary class="post__summary">
+              <h2 class="post__title">2026-02-06 — Entrada de presentación</h2>
+              <p class="post__meta">Presentación · DAM · 06/02/2026</p>
+            </summary>
+            <div class="post__content">
+              <p>
+                Soy <strong>Jose Alejandro Barranco Avilés</strong>, estudiante de <strong>Desarrollo de Aplicaciones
+                  Multiplataforma</strong>. Antes de empezar el ciclo ya había trabajado por mi cuenta con
+                <strong>Unity</strong>, <strong>C#</strong> y algunos proyectos pequeños de lógica y juegos. Todo eso
+                fue aprendizaje previo: autodidacta, probando prototipos, sistemas de físicas, IA sencilla y
+                organización básica del código.
+              </p>
+              <p>
+                Aquí, en el <strong>FP</strong>, el enfoque ha sido distinto: más formal, más estructurado y más
+                completo. Durante este primer curso he tocado áreas clave como:
+              </p>
+              <ul>
+                <li><strong>Programación en Java</strong>: POO, estructuras de datos, control de excepciones, herencia,
+                  interfaces y primeras prácticas de diseño limpio.</li>
+                <li><strong>Bases de datos</strong>: modelo relacional, diseño de tablas, claves primarias/foráneas,
+                  consultas SQL (SELECT, JOIN, GROUP BY…).</li>
+                <li><strong>Lenguajes de marcas</strong>: XML, HTML, CSS, validación y transformación.</li>
+                <li><strong>Sistemas Informáticos</strong>: hardware, redes, seguridad básica, gestión de usuarios y
+                  administración inicial.</li>
+              </ul>
+              <p>
+                Este blog lo usaré para dejar por escrito lo que voy avanzando: problemas concretos, soluciones,
+                decisiones que tomo y pequeños ejemplos que puedan servirme más adelante. Nada demasiado adornado: solo
+                un registro claro de progreso real.
+              </p>
+            </div>
+          </details>
+        </article>
+
+        <!-- POST: Lluvias en Granada (fecha: 2026-02-06) -->
+        <article class="post" id="post-2026-02-06-lluvias" data-date="2026-02-06">
+          <details open>
+            <summary class="post__summary">
+              <h2 class="post__title">2026-02-06 — Lluvias en Granada y próximos temas</h2>
+              <p class="post__meta">Clases · DAM · 06/02/2026</p>
+            </summary>
+            <div class="post__content">
+              <p>
+                Estos días ha llovido muchísimo en Granada por la borrasca Leonardo, lo que ha provocado suspensión
+                de clases durante dos días por riesgo de inundaciones y aumento del caudal de los ríos. Puedes ver la
+                noticia aquí:
+                <a href="https://www.cope.es/emisoras/andalucia/granada-provincia/granada/noticias/granada-activa-alerta-inundaciones-suspende-clases-segundo-dia-20260205_3301471.html"
+                  target="_blank" rel="noopener noreferrer">Granada activa la alerta por inundaciones</a>.
+              </p>
+              <p>
+                Aunque no hemos podido avanzar mucho por el parón, a partir de ahora retomamos el ritmo y empezamos con
+                dos temas importantes: <strong>XPath</strong> y <strong>arrays</strong>, que usaremos para trabajar con
+                XML y manejar estructuras de datos en programación.
+              </p>
+            </div>
+          </details>
+        </article>
+
+        <!-- ==================================F==========================
+PLANTILLA DE POST (OCULTA — NO SE MUESTRA EN LA WEB)
+<article class="post" id="post-YYYY-MM-DD"><details><summary class="post__summary"><h2 class="post__title">Semana YYYY-MM-DD — Título</h2><p class="post__meta">Tema · Etiqueta · YYYY/MM/DD</p></summary><div class="post__content"><p>Texto…</p><ul><li>Punto 1</li><li>Punto 2</li><li>Punto 3</li></ul><p>Repositorio / Notas: enlace</p></div></details></article>
+============================================================ -->
+      </section>
+    </article>
+  </main>
+
+  <!-- Script: ordenación + animación FLIP -->
+  <script>
+    (function () {
+      const select = document.getElementById('orderSelect');
+      const list = document.querySelector('.blog__list');
+      if (!select || !list) return;
+
+      // Posts directos dentro de la lista (evita pillar cualquier otra cosa)
+      const getPosts = () => Array.from(list.children).filter(el => el.classList.contains('post'));
+
+      // Fecha desde data-date (ISO) o desde el id como respaldo
+      const getDate = (post) => {
+        const ds = post.dataset?.date ?? '';
+        if (/^\d{4}-\d{2}-\d{2}$/.test(ds)) {
+          const [y, m, d] = ds.split('-').map(Number);
+          return new Date(y, m - 1, d);
+        }
+        const m = (post.id || '').match(/post-(\d{4})-(\d{2})-(\d{2})/);
+        return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+      };
+
+      // Mantener estado abierto/cerrado de cada details
+      const snapshotOpenState = (posts) =>
+        new Map(posts.map(p => [p.id, p.querySelector('details')?.open ?? false]));
+      const restoreOpenState = (map) => {
+        for (const [id, isOpen] of map.entries()) {
+          const details = document.getElementById(id)?.querySelector('details');
+          if (details) details.open = isOpen;
+        }
+      };
+
+      // Posiciones para animación FLIP
+      const capturePositions = (posts) =>
+        new Map(posts.map(p => [p.id, p.getBoundingClientRect()]));
+      const playFlip = (beforeMap, postsNow) => {
+        postsNow.forEach(p => {
+          const first = beforeMap.get(p.id);
+          const last = p.getBoundingClientRect();
+          if (!first || !last) return;
+          const dy = first.top - last.top;
+          if (dy) {
+            p.style.transition = 'none';
+            p.style.transform = `translateY(${dy}px)`;
+            p.style.opacity = '0.6';
+            // fuerza reflow
+            void p.offsetHeight;
+            requestAnimationFrame(() => {
+              p.style.transition = 'transform 250ms ease, opacity 250ms ease';
+              p.style.transform = 'translateY(0)';
+              p.style.opacity = '';
+              p.addEventListener('transitionend', function handler() {
+                p.style.transition = '';
+                p.style.transform = '';
+                p.style.opacity = '';
+                p.removeEventListener('transitionend', handler);
+              });
+            });
+          }
+        });
+      };
+
+      // Mapa del orden original para desempatar cuando las fechas son iguales
+      const originalIndex = new Map();
+      getPosts().forEach((p, i) => originalIndex.set(p.id, i));
+
+      const reorder = (dir) => {
+        const posts = getPosts();
+        const before = capturePositions(posts);
+        const openMap = snapshotOpenState(posts);
+
+        posts.sort((a, b) => {
+          const da = getDate(a);
+          const db = getDate(b);
+          // 1) ordenar por fecha
+          if (da && db && da.getTime() !== db.getTime()) {
+            return dir === 'asc' ? (da - db) : (db - da);
+          }
+          // 2) empate: usar posición original
+          const ia = originalIndex.get(a.id) ?? 0;
+          const ib = originalIndex.get(b.id) ?? 0;
+          return dir === 'asc' ? (ia - ib) : (ib - ia);
+        });
+
+        // Reanexar en nuevo orden
+        posts.forEach(p => list.appendChild(p));
+
+        // Animación y restaurar estado abierto/cerrado
+        playFlip(before, posts);
+        restoreOpenState(openMap);
+      };
+
+      // Orden inicial según el select (por defecto: "Más reciente")
+      reorder(select.value === 'asc' ? 'asc' : 'desc');
+
+      // Escuchar cambios del usuario
+      select.addEventListener('change', (e) => {
+        const dir = e.target.value === 'asc' ? 'asc' : 'desc';
+        reorder(dir);
+      });
+    })();
+  </script>
+</body>
+
+</html>
